@@ -88,16 +88,6 @@ function App() {
 			accessorKey: "publisher",
 			header: "Publisher",
 		},
-		{
-			accessorKey: "likes",
-			header: "Likes",
-			filterFn: row => {
-				return row.original.likes >= likes[0];
-			},
-			meta: {
-				hidden: true,
-			},
-		},
 	];
 
 	const filteredData: Book[] = books.filter(
