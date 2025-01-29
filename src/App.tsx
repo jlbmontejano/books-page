@@ -12,7 +12,7 @@ function App() {
 
 	useEffect(() => {
 		fetchInitialBooks();
-	}, [seed, language]);
+	}, [seed, language, likes, reviews]);
 
 	const fetchInitialBooks = () => {
 		const initialBooks = fetchBooks(0, 20);
@@ -30,6 +30,18 @@ function App() {
 
 		const books: Book[] = newFaker.helpers.multiple(
 			(_, idx): Book => {
+				const likesFloor = Math.floor(likes[0]);
+				const likesProb = likes[0] - likesFloor;
+
+				const likeCount =
+					Math.random() < likesProb ? likesFloor + 1 : likesFloor;
+
+				const reviewsFloor = Math.floor(reviews);
+				const reviewsProb = reviews - reviewsFloor;
+
+				const reviewCount =
+					Math.random() < reviewsProb ? reviewsFloor + 1 : reviewsFloor;
+
 				return {
 					id: (lastIdx + idx + 1).toString(),
 					isbn: faker.commerce.isbn(),
@@ -39,11 +51,7 @@ function App() {
 						.past({ years: 10 })
 						.getFullYear()}`,
 					image: faker.image.url({ height: 180, width: 120 }),
-					likes: faker.number.float({
-						fractionDigits: 2,
-						min: 0.01,
-						max: 5,
-					}),
+					likes: likeCount,
 					reviews: newFaker.helpers.multiple(
 						() => {
 							return {
@@ -52,11 +60,7 @@ function App() {
 							};
 						},
 						{
-							count: faker.number.float({
-								fractionDigits: 2,
-								min: 0,
-								max: 5,
-							}),
+							count: reviewCount,
 						}
 					),
 				};
@@ -90,10 +94,6 @@ function App() {
 		},
 	];
 
-	const filteredData: Book[] = books.filter(
-		book => book.likes >= likes[0] && book.reviews.length >= reviews
-	);
-
 	if (!books) <p className='pt-4 text-center'>Loading...</p>;
 
 	return (
@@ -110,7 +110,7 @@ function App() {
 					next={fetchMoreBooks}
 					hasMore={true}
 					loader={<p className='pt-4 text-center'>Loading...</p>}>
-					<DataTable data={filteredData} columns={columns} />
+					<DataTable data={books} columns={columns} />
 				</InfiniteScroll>
 			</div>
 		</main>

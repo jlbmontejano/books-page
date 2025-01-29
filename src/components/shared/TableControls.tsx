@@ -33,8 +33,7 @@ const TableControls = () => {
 	};
 
 	const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const userSeed = parseInt(e.target.value);
-		if (!isNaN(userSeed)) setSeed(userSeed);
+		setSeed(parseInt(e.target.value));
 	};
 
 	const handleLikes = (likes: number[]) => {
@@ -42,8 +41,9 @@ const TableControls = () => {
 	};
 
 	const handleReviews = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const reviews = parseInt(e.target.value);
-		if (!isNaN(reviews)) setReviews(reviews);
+		const reviews = parseFloat(e.target.value);
+
+		setReviews(reviews);
 	};
 
 	return (
@@ -64,7 +64,12 @@ const TableControls = () => {
 			<div>
 				<Label className='text-xs text-gray-600'>Seed:</Label>
 				<div className='flex'>
-					<Input value={seed} onChange={handleUserInput} />
+					<Input
+						value={seed}
+						onChange={handleUserInput}
+						type='number'
+						step={1}
+					/>
 					<Button onClick={handleRandomizeSeed} className='mx-1'>
 						<FaRandom />
 					</Button>
@@ -72,12 +77,12 @@ const TableControls = () => {
 			</div>
 			<div>
 				<Label className='text-xs text-gray-600'>Likes:</Label>
-				<div className='px-2'>
+				<div className='px-4'>
 					<p className='text-center pb-1'>{likes}</p>
 					<Slider
 						defaultValue={[0]}
 						step={0.1}
-						max={5}
+						max={10}
 						onValueChange={handleLikes}
 						value={likes}
 					/>
@@ -85,7 +90,7 @@ const TableControls = () => {
 			</div>
 			<div>
 				<Label className='text-xs text-gray-600'>Reviews:</Label>
-				<Input value={reviews} onChange={handleReviews} />
+				<Input value={reviews} onChange={handleReviews} type='number' />
 			</div>
 		</div>
 	);
