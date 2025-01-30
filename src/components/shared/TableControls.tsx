@@ -90,7 +90,12 @@ const TableControls = () => {
 			</div>
 			<div>
 				<Label className='text-xs text-gray-600'>Reviews:</Label>
-				<Input value={reviews} onChange={handleReviews} type='number' />
+				<Input
+					value={reviews}
+					onChange={handleReviews}
+					type='number'
+					step={0.1}
+				/>
 			</div>
 		</div>
 	);
