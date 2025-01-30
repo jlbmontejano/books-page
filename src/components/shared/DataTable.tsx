@@ -23,11 +23,11 @@ interface DataTableProps {
 
 export function DataTable({ columns, data }: DataTableProps) {
 	const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
-	const { seed, likes, reviews } = useTableContext();
+	const { seed } = useTableContext();
 
 	useEffect(() => {
 		setExpandedRows(new Set());
-	}, [seed, likes, reviews]);
+	}, [seed]);
 
 	const toggleRowExpansion = (rowId: string) => {
 		setExpandedRows(prev => {
